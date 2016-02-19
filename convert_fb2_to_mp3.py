@@ -63,9 +63,10 @@ def worker(n):
         gevent.sleep(0)
     print('Quitting time!')
 
-if False:
-    for x in q:
-        tasks.put_nowait(x)
+
+for x in q:
+    tasks.put_nowait(x)
+    if False:
         if x['counter_p']>100:
             break
 
