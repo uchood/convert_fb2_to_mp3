@@ -1,0 +1,3 @@
+gtts
+beautifulsoup4
+gevent
