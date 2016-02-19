@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from bs4 import BeautifulSoup
 import re
 import codecs
 
+
+from bs4 import BeautifulSoup
 import gevent
 from gevent.queue import Queue
-
+from gtts import gTTS
 
 filename = "some.fb2"
 with codecs.open(filename,'r',encoding='utf8') as f:
@@ -33,7 +34,7 @@ with codecs.open(filename_2,'w',encoding='utf8') as f:
             counter_seq+=1
 
 
-from gtts import gTTS
+
 
 counter = 0
 q = []
