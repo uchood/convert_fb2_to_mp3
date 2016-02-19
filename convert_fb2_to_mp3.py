@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import re
-
 import codecs
+
+import gevent
+from gevent.queue import Queue
+
+
 filename = "some.fb2"
 with codecs.open(filename,'r',encoding='utf8') as f:
     content = f.read()
@@ -46,8 +50,7 @@ for x in q:
     tts.save(x['name'])
 
 
-import gevent
-from gevent.queue import Queue
+
 
 tasks = Queue()
 
@@ -59,10 +62,11 @@ def worker(n):
         gevent.sleep(0)
     print('Quitting time!')
 
-for x in q:
-    tasks.put_nowait(x)
-    if x['counter_p']>100:
-        break
+if False:
+    for x in q:
+        tasks.put_nowait(x)
+        if x['counter_p']>100:
+            break
 
 gevent.joinall([
     gevent.spawn(worker, 'steve'),
