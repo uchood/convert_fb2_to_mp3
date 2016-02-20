@@ -50,7 +50,7 @@ with codecs.open(filename_2,'w',encoding='utf8') as f:
             counter_seq+=1
 
 
-sys.exit()
+#sys.exit()
 
 counter = 0
 q = []
