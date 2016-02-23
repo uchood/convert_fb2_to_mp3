@@ -100,8 +100,8 @@ try:
                 tts.save(task['name'])
                 gevent.sleep(0)
             except Exception as e:
-                loging.exception("Error in gtts: {}".format(e))
-                loging.exception(traceback.format_exc())
+                logging.exception("Error in gtts: {}".format(e))
+                logging.exception(traceback.format_exc())
                 error_counter += 1 
         print('Quitting time!')
 
@@ -124,6 +124,6 @@ try:
 
     gevent.joinall(threads)
 except Exception as e:
-    loging.exception("Error in convert_fb2_to_mp3.py: {}".format(e))
-    loging.exception(traceback.format_exc())
+    logging.exception("Error in convert_fb2_to_mp3.py: {}".format(e))
+    logging.exception(traceback.format_exc())
     raise
