@@ -6,6 +6,7 @@ import os
 import sys
 import logging
 import traceback
+import time
 
 from bs4 import BeautifulSoup
 import gevent
@@ -115,6 +116,16 @@ try:
                 
         print('Quitting time!')
 
+    def info_worker():
+        reminder = tasks.qsize()
+        last_reminder = reminder
+        sleep_interval_in_sec = 1
+        while reminder > 10 and not tasks.empty():
+            print "remain {} sequnses: speed {}/seq".format(reminder, (last_reminder - reminder)/sleep_interval_in_sec)
+            gevent.sleep(sleep_interval_in_sec)
+            last_reminder = reminder
+            reminder = tasks.qsize()
+
     counter = 0
     for x in q:
         tasks.put_nowait(x)
@@ -131,7 +142,13 @@ try:
     threads = []
     for x in xrange(number_of_threads):
         threads.append(gevent.spawn(worker, "worker_{}".format(x)))
+    
+    #threads.append(gevent.spawn(info_worker))
+    
 
+    
+
+        
     gevent.joinall(threads)
 except Exception as e:
     logging.exception("Error in convert_fb2_to_mp3.py: {}".format(e))
