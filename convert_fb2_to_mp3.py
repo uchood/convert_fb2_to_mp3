@@ -96,11 +96,13 @@ try:
         while error_counter < max_error_counter and not tasks.empty():
             try:
                 task = tasks.get()
-                while error_counter < max_error_counter:
+                retry = True
+                while retry and error_counter < max_error_counter:
                     try:
                         tts = gTTS(text=task['text'], lang='ru')
                         tts.save(task['name'])
                         error_counter = 0
+                        retry = False
                     except Exception as e:
                         logging.exception("Error in gtts: {}".format(e))
                         logging.exception(traceback.format_exc())            
