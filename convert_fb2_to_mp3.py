@@ -104,8 +104,7 @@ try:
                         error_counter = 0
                         retry = False
                     except Exception as e:
-                        logging.exception("Error in gtts: {}".format(e))
-                        logging.exception(traceback.format_exc())            
+                        logging.exception("gTTS: {}".format(e))
                         error_counter += 1
                 if  error_counter >= max_error_counter:
                     logging.error("File not created : [{}] with text [{}]".format(task['name'],task['text'],))    
@@ -136,5 +135,4 @@ try:
     gevent.joinall(threads)
 except Exception as e:
     logging.exception("Error in convert_fb2_to_mp3.py: {}".format(e))
-    logging.exception(traceback.format_exc())
     raise
