@@ -104,7 +104,7 @@ try:
                         error_counter = 0
                         retry = False
                     except Exception as e:
-                        logging.exception("file [{}] : gTTS: [{}]".format(task['name'],e))
+                        logging.warning("file [{}] : gTTS: [{}]".format(task['name'],e))
                         error_counter += 1
                 if  error_counter >= max_error_counter:
                     logging.error("File not created : [{}] with text [{}]".format(task['name'],task['text'],))    
