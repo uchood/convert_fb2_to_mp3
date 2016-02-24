@@ -5,7 +5,7 @@ import zipfile
 import os
 import sys
 import logging
-
+import traceback
 
 from bs4 import BeautifulSoup
 import gevent
@@ -92,17 +92,26 @@ try:
 
     def worker(n):
         error_counter = 0
-        max_error_counter = 2
+        max_error_counter = 5
         while error_counter < max_error_counter and not tasks.empty():
             try:
                 task = tasks.get()
-                tts = gTTS(text=task['text'], lang='ru')
-                tts.save(task['name'])
+                while error_counter < max_error_counter:
+                    try:
+                        tts = gTTS(text=task['text'], lang='ru')
+                        tts.save(task['name'])
+                        error_counter = 0
+                    except Exception as e:
+                        logging.exception("Error in gtts: {}".format(e))
+                        logging.exception(traceback.format_exc())            
+                        error_counter += 1
+                if  error_counter >= max_error_counter:
+                    logging.error("File not created : [{}] with text [{}]".format(task['name'],task['text'],))    
                 gevent.sleep(0)
             except Exception as e:
                 logging.exception("Error in gtts: {}".format(e))
                 logging.exception(traceback.format_exc())
-                error_counter += 1 
+                
         print('Quitting time!')
 
     counter = 0
